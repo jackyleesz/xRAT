@@ -1,5 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using xClient.Core.Commands;
 
 namespace xClient.Tests.Core.Compression
 {
@@ -14,9 +13,9 @@ namespace xClient.Tests.Core.Compression
             bytes[1] = 99;
             var command = new xClient.Core.Packets.ServerPackets.DoUploadAndExecute(1, "bat.bat", bytes, 100, 0, false);
 
-            var result = CommandHandler.IsValidExecuteFile(command);
+            command.IsValidExecuteFile();
 
-            Assert.IsTrue(result, "Uploading a .bat file failed!");
+            Assert.IsTrue(command.CorrectFileType, "Uploading a .bat file failed!");
         }
 
         [TestMethod]
@@ -27,9 +26,9 @@ namespace xClient.Tests.Core.Compression
             bytes[1] = 90;
             var command = new xClient.Core.Packets.ServerPackets.DoUploadAndExecute(1, "bat.bat", bytes, 100, 0, false);
 
-            var result = CommandHandler.IsValidExecuteFile(command);
+            command.IsValidExecuteFile();
 
-            Assert.IsTrue(result, "Uploading a .exe file failed!");
+            Assert.IsTrue(command.CorrectFileType, "Uploading a .exe file failed!");
         }
 
         [TestMethod]
@@ -40,9 +39,9 @@ namespace xClient.Tests.Core.Compression
             bytes[1] = 93;
             var command = new xClient.Core.Packets.ServerPackets.DoUploadAndExecute(1, "bat.bat", bytes, 100, 0, false);
 
-            var result = CommandHandler.IsValidExecuteFile(command);
+            command.IsValidExecuteFile();
 
-            Assert.IsFalse(result, "Uploading an invalid file worked!");
+            Assert.IsFalse(command.CorrectFileType, "Uploading an invalid file worked!");
         }
     }
 }
